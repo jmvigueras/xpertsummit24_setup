@@ -41,10 +41,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $exit .= '<p>';
                         $exit .= '<b>Acceso a tu FortiGate:</b>';
                         $exit .= '</p>';
-                        $exit .= '  fgt_url  = https://' . $row['fgt_ip'] . ':8443 <br>';
+                        $exit .= '  fgt_mgmt_url = https://' . $row['fgt_ip'] . ':8443 <br>';
                         $exit .= '  fgt_user = "' . $row['fgt_user'] . '"<br>';
                         $exit .= '  fgt_pass = "' . $row['fgt_password'] . '"<br>';
                         $exit .= '  fgt_api_key = "' . $row['fgt_api_key'] . '"<br>';
+                        $exit .= '  fgt_api_url = "' . $row['fgt_api_url'] . '"<br>';
                         $exit .= '<p>';
                         $exit .= '<b>Acceso a tu FortiADC:</b>';
                         $exit .= '</p>';

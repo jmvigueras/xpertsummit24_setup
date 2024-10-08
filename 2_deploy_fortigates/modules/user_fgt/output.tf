@@ -8,6 +8,7 @@ output "user_fgts" {
       username    = "admin"
       password    = v.fgt_id
       admin_cidr  = var.admin_cidr
+      fgt_api_url = "https://${module.user_vpc[k].fgt_ni_ips["public"]}:${var.admin_port}"
     }
   }
 }
