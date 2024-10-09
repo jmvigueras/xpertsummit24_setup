@@ -24,6 +24,15 @@
                         document.getElementById('js_result_leaderboard').innerHTML = data;
                 });
         };
+        function create_cname(){
+                url = "http://localhost:8080/createcname";
+                data = { user_id : $("#user_id").val(),
+                         fwb_endpoint : $("#fwb_endpoint").val()
+                        }
+                $.post( url, data, function(data) {
+                        document.getElementById('js_result_createcname').innerHTML = data;
+                });
+        };
 	$(document).ready(function() {
 	   setInterval(get_leaderboard, 10000);
 	});
@@ -31,16 +40,23 @@
   </head>
   <body>
     <h1><span style="color:Red">Fortinet</span> - Fortigate SDWAN, FortiADC and FortiWeb Cloud Hands-on-Lab</h1>
-    <h2>Cloud workshop</h2>
+    <h2>Cloud and application security workshop</h2>
     <h3>Guide and repository lab: <a href="https://github.com/xpertsummit/xpertsummit24/">Fortigate SDWAN, FortiADC and FortiWeb Cloud HoL GitRepo</a></h3>
     <hr/>
     <h3>Student data: </h3>
         <label for="email">Enter your email:</label>
-        <input type="email" id="txt_email" name="email"> 
+        <input type="email" id="txt_email" name="email">
         <button id="btn1" type="button" onclick="get_studentdata()">Show</button>
         <button id="btn2" type="button" onclick="hide_studentdata()">Hide</button>
         <pre>
         <code id="js_result_studentdata"></code>
+        </pre>
+    <h3>Create CNAME: </h3>
+        <input type="text" id="user_id" name="user_id" placeholder="user_id: fortixpertX">
+        <input type="text" id="fwb_endpoint" name="fwb_endpoint" placeholder="FWB Endpoint CNAME">
+        <button id="btn3" type="button" onclick="create_cname()">Create</button>
+        <pre>
+        <code id="js_result_createcname"></code>
         </pre>
     <hr/>
     <h2>Leader board</h2>

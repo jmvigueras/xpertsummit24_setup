@@ -40,9 +40,11 @@ locals {
   # Server LAB variables
   #--------------------------------------------------------------------------------------------
   # LAB servers FQDNs
-  lab_fqdn    = "www.fortidemoscloud.com"
-  server_fqdn = "server.fortidemoscloud.com"
-  mail_fqdn   = "mail.fortidemoscloud.com"
+  dns_domain  = "fortidemoscloud.com"
+  dns_zone_id = "Z0204711R1XYLX8XRXCS"
+  lab_fqdn    = "www.${local.dns_domain}"
+  server_fqdn = "server.${local.dns_domain}"
+  mail_fqdn   = "mail.${local.dns_domain}"
 
   lab_token = trimspace(random_string.lab_token.result)
 

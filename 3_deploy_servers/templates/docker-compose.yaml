@@ -28,7 +28,7 @@ services:
       - frontweb
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
   web:
-    image: jviguerasfortinet/xpertsummit22:php-xs22
+    image: jviguerasfortinet/hol-portal:v1
     container_name: frontweb
     restart: always
     environment:
@@ -38,6 +38,9 @@ services:
       DBTABLE: '${db_table}'
       DBPORT: '${db_port}'
       DBPASS: '${db_pass}'
+      DNSDOMAIN: '${dns_domain}'
+      DNSZONEID: '${dns_zone_id}'
+      AWSREGION: '${aws_region}'
     depends_on:
       - db
     volumes:
@@ -54,6 +57,15 @@ services:
       PMA_HOST: mysqldb
       PMA_PORT: 3306
       PMA_ABSOLUTE_URI: http://${lab_fqdn}/${random_url_db}/
+    networks:
+      - frontweb
+  api:
+    image: jviguerasfortinet/hol-api:v1
+    container_name: api
+    restart: always
+    environment:
+      DNSDOMAIN: ${dns_domain}
+      DNSZONEID: ${dns_zone_id}
     networks:
       - frontweb
   checkscript:

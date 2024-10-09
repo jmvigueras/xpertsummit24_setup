@@ -43,7 +43,9 @@ data "template_file" "srv_user_data_dockerfile" {
     db_table      = local.mysql_db["table"]
     db_port       = local.mysql_db["port"]
     app_port      = local.app1_mapped_port
-  }
+    dns_domain    = local.dns_domain
+    dns_zone_id   = local.dns_zone_id
+  } 
 }
 // Create nginx config
 data "template_file" "srv_user_data_nginx_config" {

@@ -38,7 +38,7 @@ variable "private_ip" {
 variable "instance_type" {
   description = "FortiMail instance type"
   type        = string
-  default     = "m5.large"
+  default     = "m5.xlarge"
 }
 
 variable "subnet_id" {
