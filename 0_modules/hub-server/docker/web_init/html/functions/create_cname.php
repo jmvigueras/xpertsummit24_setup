@@ -1,10 +1,10 @@
 <?php
 
 // Functions
-function createcname($url, $user_id, $fwb_endpoint) {
+function createcname($url, $new_record, $fwb_endpoint) {
     // Prepare data to send in POST request
     $data = array(
-        'user_id' => $user_id,
+        'new_record' => $new_record,
         'fwb_endpoint' => $fwb_endpoint
     );
 
@@ -39,8 +39,9 @@ function createcname($url, $user_id, $fwb_endpoint) {
 // Variables
 $url = 'http://api:8080/createcname';
 
+// Main
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    echo createcname($url, $_POST["user_id"], $_POST["fwb_endpoint"]);
+    echo createcname($url, $_POST["new_record"], $_POST["fwb_endpoint"]);
 } else {
     echo "Method not allowed";
 }

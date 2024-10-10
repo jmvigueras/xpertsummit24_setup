@@ -26,7 +26,7 @@
         };
         function create_cname(){
                 url = "functions/create_cname.php";
-                data = { user_id : $("#user_id").val(),
+                data = { new_record : $("#new_record").val(),
                          fwb_endpoint : $("#fwb_endpoint").val()
                         }
                 $.post( url, data, function(data) {
@@ -52,7 +52,7 @@
         <code id="js_result_studentdata"></code>
         </pre>
     <h3>Create CNAME: </h3>
-        <input type="text" id="user_id" name="user_id" placeholder="user_id: fortixpertX">
+        <input type="text" id="new_record" name="new_record" placeholder="new_record: fortixpertX-dvwa or fortixpertX-api">
         <input type="text" id="fwb_endpoint" name="fwb_endpoint" placeholder="fwb_endpoint: FWB endpoint">
         <button id="btn3" type="button" onclick="create_cname()">Create</button>
         <pre>

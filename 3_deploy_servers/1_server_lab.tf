@@ -3,7 +3,7 @@
 #--------------------------------------------------------------------------------------------
 # Create master node LAB server
 module "lab_server" {
-  source = "./modules/hub_vm"
+  source = "./modules/lab_vm"
 
   region        = local.hub_region
   prefix        = "${local.prefix}-lab-server"
@@ -11,6 +11,7 @@ module "lab_server" {
   instance_type = local.lab_srv_type
   linux_os      = "amazon"
   user_data     = data.template_file.srv_user_data.rendered
+  iam_profile   = aws_iam_instance_profile.lab-portal-apicall-profile.name
 
   ni_id = local.hub_lab_server_ni
 
@@ -61,4 +62,73 @@ data "template_file" "srv_user_data_nginx_html" {
   vars = {
     lab_fqdn = local.lab_fqdn
   }
+}
+
+# Create the IAM role/profile for the API Call
+// Create role
+resource "aws_iam_role" "lab-portal-role" {
+  name = "${local.prefix}-lab-portal-apicall-role"
+
+  assume_role_policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": "sts:AssumeRole",
+            "Principal": {
+              "Service": "ec2.amazonaws.com"
+            },
+            "Effect": "Allow",
+            "Sid": ""
+        }
+    ]
+}
+EOF
+}
+// Create instance IAM profile
+resource "aws_iam_instance_profile" "lab-portal-apicall-profile" {
+  name = "${local.prefix}-lab-portal-apicall-profile"
+  role = aws_iam_role.lab-portal-role.name
+}
+// Create policy
+resource "aws_iam_policy" "lab-portal-apicall-policy" {
+  name        = "${local.prefix}-lab-portal-apicall-policy"
+  path        = "/"
+  description = "Policies for the FGT api-call Role"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ReadEC2Resources",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:Describe*",
+                "eks:ListClusters"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "DNSNewRecordSet",
+            "Effect": "Allow",
+            "Action": "route53:ChangeResourceRecordSets",
+            "Resource": "arn:aws:route53:::hostedzone/${local.dns_zone_id}",
+            "Condition": {
+                "ForAllValues:StringLike": {
+                    "route53:ChangeResourceRecordSetsNormalizedRecordNames": [
+                        "fortixpert*.${local.dns_domain}"
+                    ]
+                }
+            }
+        }
+    ]
+}
+EOF
+}
+// Create policy attachment
+resource "aws_iam_policy_attachment" "lab-portal-apicall-attach" {
+  name       = "${local.prefix}-lab-portal-apicall-attachment"
+  roles      = [aws_iam_role.lab-portal-role.name]
+  policy_arn = aws_iam_policy.lab-portal-apicall-policy.arn
 }

@@ -6,7 +6,7 @@ module "dual_hub" {
   api_key        = trimspace(random_string.api_key.result)
   key_pair_name  = aws_key_pair.hub_keypair.key_name
   instance_type  = local.fgt_instance_type
-  fgt_build      = local.fgt_build
+  fgt_build      = local.fgt_build_745
 
   region = local.hub_region["id"]
   azs    = [local.hub_region["az1"], local.hub_region["az2"]]

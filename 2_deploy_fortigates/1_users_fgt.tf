@@ -6,7 +6,7 @@ module "r1_users_fgt" {
   api_key        = trimspace(random_string.api_key.result)
   key_pair_name  = aws_key_pair.r1_keypair.key_name
   instance_type  = local.fgt_instance_type
-  fgt_build      = local.fgt_build
+  fgt_build      = local.fgt_build_760
 
   region = local.r1_region
 
@@ -38,7 +38,7 @@ module "r2_users_fgt" {
   api_key        = trimspace(random_string.api_key.result)
   key_pair_name  = aws_key_pair.r2_keypair.key_name
   instance_type  = local.fgt_instance_type
-  fgt_build      = local.fgt_build
+  fgt_build      = local.fgt_build_760
 
   prefix         = local.prefix
   spoke_prefix   = "r2"
@@ -68,7 +68,7 @@ module "r3_users_fgt" {
   api_key        = trimspace(random_string.api_key.result)
   key_pair_name  = aws_key_pair.r3_keypair.key_name
   instance_type  = local.fgt_instance_type
-  fgt_build      = local.fgt_build
+  fgt_build      = local.fgt_build_760
 
   prefix         = local.prefix
   spoke_prefix   = "r3"

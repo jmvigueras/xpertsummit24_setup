@@ -19,26 +19,26 @@ def createcname():
     if request.content_type == 'application/json':
         # JSON request, typically from `curl -d`
         data = request.get_json()
-        user_id = data.get('user_id')
+        new_record = data.get('new_record')
         fwb_endpoint = data.get('fwb_endpoint')
     else:
         # Form data, typically from HTML form submission
-        user_id = request.form.get('user_id')
+        new_record = request.form.get('new_record')
         fwb_endpoint = request.form.get('fwb_endpoint')
 
     # Validate the inputs
-    if not user_id or not fwb_endpoint:
-        return "Necesito dos parámetros: user_id y fwb_endpoint"
+    if not new_record or not fwb_endpoint:
+        return "Necesito dos parámetros: new_record y fwb_endpoint"
 
-    if not is_valid_user_id(user_id):
-        return f"user_id no válido: {user_id}"
+    if not is_valid_new_record(new_record):
+        return f"new_record no válido: {new_record}"
     
     if not is_valid_fqdn(fwb_endpoint):
         return f"fwb_endpoint no válido: {fwb_endpoint}"
 
     try:
         # Construct the CNAME record name
-        new_record = f"{user_id}.{DOMAIN_NAME}"
+        new_record = f"{new_record}.{DOMAIN_NAME}"
         # Initialize Route 53 client
         route53 = boto3.client('route53')
         # Create CNAME record
@@ -72,11 +72,11 @@ def sanitize_input(input_string):
     
     return sanitized_string
 
-# Function to check fortixperts user_id
-def is_valid_user_id(input_string):
+# Function to check fortixperts new_record
+def is_valid_new_record(input_string):
     # Check if the record name starts with "fortixpert" and extract the numeric part
-    user_id_regex = r'^fortixpert(\d+)$'
-    return re.match(user_id_regex, input_string) is not None
+    new_record_regex = r'^fortixpert([1-9][0-9]?|100)(-dvwa|-api)?$'
+    return re.match(new_record_regex, input_string) is not None
 
 # Function to validate URL
 def is_valid_fqdn(input_string):

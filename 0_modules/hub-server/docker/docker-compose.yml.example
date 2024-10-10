@@ -17,7 +17,7 @@ services:
     networks:
       - frontweb
   web:
-    image: jviguerasfortinet/hol-web:v1
+    image: jviguerasfortinet/hol-portal:v1
     container_name: frontweb
     restart: always
     environment:
