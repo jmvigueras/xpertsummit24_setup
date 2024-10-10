@@ -17,7 +17,7 @@ services:
     networks:
       - frontweb
   web:
-    image: jviguerasfortinet/xpertsummit22:php-xs22
+    image: jviguerasfortinet/hol-web:v1
     container_name: frontweb
     restart: always
     environment:
@@ -33,6 +33,15 @@ services:
       - ./web_init:/var/www
     stdin_open: true
     tty: true
+    networks:
+      - frontweb
+  api:
+    image: jviguerasfortinet/hol-api:v1
+    container_name: api
+    restart: always
+    environment:
+      DNSDOMAIN: ${dns_domain}
+      DNSZONEID: ${dns_zone_id}
     networks:
       - frontweb
   phpmyadmin:

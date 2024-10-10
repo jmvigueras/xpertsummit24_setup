@@ -16,7 +16,7 @@ COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Copy the application code
-COPY api.py .
+COPY . .
 
 # Expose the port
 EXPOSE 8080
